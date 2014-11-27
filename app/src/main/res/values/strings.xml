@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ProyectoDescargarImagen</string>
+    <string name="action_settings">Settings</string>
+    <string name="guardarC">Guardar Como:</string>
+    <string name="guardarE">Guardar En:</string>
+    <string name="extPrivada">Externa Privada</string>
+    <string name="extPublica">Externa Publica</string>
+    <string name="btGuardar">Guardar</string>
+    <string name="msgGuardar">Imagen guardada en </string>
+
+</resources>
