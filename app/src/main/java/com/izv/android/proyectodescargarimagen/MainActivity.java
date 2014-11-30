@@ -122,58 +122,63 @@ public class MainActivity extends Activity {
         String filepath = null, mensaje;
         String extension = Url.substring(Url.lastIndexOf("."));
 
-        if (nombre.equals("")) {
-            nombre = Url.substring(Url.lastIndexOf("/") + 1, Url.lastIndexOf("."));
-        }
-
-        File destino = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM), nombre + extension);
-
-        if (ruta.equals("publica")) {
-            destino = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), nombre + extension);
-        } else if (ruta.equals("privada")) {
-            destino = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM), nombre + extension);
-        }
-
-
-        try {
-
-            URL url = new URL(Url);
-
-            //creamos la conexion
-
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoOutput(true);
-            urlConnection.connect();
-
-            //creamos el archivo
-            destino.createNewFile();
-
-
-            FileOutputStream fileOutput = new FileOutputStream(destino);
-            InputStream inputStream = urlConnection.getInputStream();
-
-            //tamaño total del archivo
-            int tamanoTotal = urlConnection.getContentLength();
-
-            //buffer para almacenar los datos.
-            byte[] buffer = new byte[4096];
-            int bufferLength = 0;
-
-            while ((bufferLength = inputStream.read(buffer)) > 0) {
-                fileOutput.write(buffer, 0, bufferLength);
+        if(extension.equals(".jpg") || extension.equals(".png") || extension.equals(".gif")) {
+            if (nombre.equals("")) {
+                nombre = Url.substring(Url.lastIndexOf("/") + 1, Url.lastIndexOf("."));
             }
-            fileOutput.close();
+
+            File destino = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM), nombre + extension);
+
+            if (ruta.equals("publica")) {
+                destino = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), nombre + extension);
+            } else if (ruta.equals("privada")) {
+                destino = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM), nombre + extension);
+            }
 
 
-        } catch (Exception e) {
-            System.out.println(e);
+            try {
+
+                URL url = new URL(Url);
+
+                //creamos la conexion
+
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setDoOutput(true);
+                urlConnection.connect();
+
+                //creamos el archivo
+                destino.createNewFile();
+
+
+                FileOutputStream fileOutput = new FileOutputStream(destino);
+                InputStream inputStream = urlConnection.getInputStream();
+
+                //tamaño total del archivo
+                int tamanoTotal = urlConnection.getContentLength();
+
+                //buffer para almacenar los datos.
+                byte[] buffer = new byte[4096];
+                int bufferLength = 0;
+
+                while ((bufferLength = inputStream.read(buffer)) > 0) {
+                    fileOutput.write(buffer, 0, bufferLength);
+                }
+                fileOutput.close();
+
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+            resp = "Guardada en: " + destino;
+            Bitmap image = BitmapFactory.decodeFile("" + destino);
+            Bitmap imgEscalada = Bitmap.createScaledBitmap(image, 300, 300, false);
+            return imgEscalada;
+        }else{
+            tostada(""+R.string.msgExtension);
+            return null;
         }
-
-        resp = "Guardada en: "+destino;
-        Bitmap image = BitmapFactory.decodeFile("" + destino);
-        Bitmap imgEscalada = Bitmap.createScaledBitmap(image, 300, 300, false);
-        return imgEscalada;
     }
     private void tostada(String s){
         Toast.makeText(this, s, Toast.LENGTH_LONG).show();

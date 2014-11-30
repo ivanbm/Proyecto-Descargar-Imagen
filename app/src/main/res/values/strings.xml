@@ -9,5 +9,6 @@
     <string name="extPublica">Externa Publica</string>
     <string name="btGuardar">Guardar</string>
     <string name="msgGuardar">Imagen guardada en </string>
+    <string name="msgExtension">Extensión no admitida</string>
 
 </resources>
